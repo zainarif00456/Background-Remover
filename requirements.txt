@@ -1,0 +1,4 @@
+flask
+rembg
+python-dotenv
+Pillow
