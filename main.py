@@ -1,8 +1,19 @@
+import threading
+import time
+
 from flask import Flask, request, send_file
 import os
 from utils import require_api_key, remove_background, INPUT_FOLDER
 
 app = Flask(__name__)
+
+def clean_directory(output_path):
+    time.sleep(3)
+    try:
+        if os.path.exists(output_path):
+            os.remove(output_path)
+    except Exception as e:
+        print(f"ERROR >>> {e}")
 
 
 @app.route('/remove-bg', methods=['POST'])
@@ -32,7 +43,7 @@ def remove_bg_endpoint():
 
     # Process the image to remove background
     output_path = remove_background(input_path)
-
+    threading.Thread(target=clean_directory, args=(output_path,)).start()
     # Return the processed image
     return send_file(output_path, mimetype='image/png')
 

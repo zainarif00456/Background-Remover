@@ -41,7 +41,7 @@ def remove_background(image_path):
     output_path = os.path.join(OUTPUT_FOLDER, os.path.basename(image_path))
     with open(output_path, 'wb') as o:
         o.write(result)
-
+    os.remove(image_path)   # to remove input png file path
     return output_path
 
 
